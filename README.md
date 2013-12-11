@@ -1,4 +1,4 @@
 JimmyR
 ======
 
-Repo for JimmyR Biped Research 
+Repo for JimmyR Biped Research at Olin College
