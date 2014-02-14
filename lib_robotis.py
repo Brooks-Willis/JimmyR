@@ -336,6 +336,7 @@ class Robotis_Servo():
         return data
 
     def process_err( self, err ):
+        print err
         raise RuntimeError('lib_robotis: An error occurred: %d\n' % err)
 
     def receive_reply(self):
