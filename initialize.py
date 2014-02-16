@@ -1,5 +1,5 @@
 from lib_robotis import *
-from math import radians
+from math import *
 #U2D = USB2Dynamixel_Device()
 """
 s = shoulder
@@ -33,22 +33,50 @@ def setup():
     return (dyn, rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt)
 
 def main():
-    dyn, rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt  = setup()
+    dyn, rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt = setup()
+    motors = [rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt]
     command = raw_input('Next Command? ')
     while command != 'end':
         if command == 'stand':
-            rhTwist.move_angle(0)
-            lhTwist.move_angle(0)
-            rhTilt.move_angle(0)
-            lhTilt.move_angle(0)
-            rhSwing.move_angle(0)
-            lhSwing.move_angle(0)
-            rkExt.move_angle(0)
-            lkExt.move_angle(0)
-            raExt.move_angle(0)
-            laExt.move_angle(0)
-            raTilt.move_angle(0)
-            laTilt.move_angle(0)
+            rhTwist.move_angle(0, blocking = False)
+            lhTwist.move_angle(0, blocking = False)
+            rhTilt.move_angle(0, blocking = False)
+            lhTilt.move_angle(0, blocking = False)
+            rhSwing.move_angle(0, blocking = False)
+            lhSwing.move_angle(0, blocking = False)
+            rkExt.move_angle(0, blocking = False)
+            lkExt.move_angle(0, blocking = False)
+            raExt.move_angle(0, blocking = False)
+            laExt.move_angle(0, blocking = False)
+            raTilt.move_angle(0, blocking = False)
+            laTilt.move_angle(0, blocking = False)
+
+        elif command == 'crouch':
+            rhTwist.move_angle(0, blocking = False)
+            lhTwist.move_angle(0, blocking = False)
+            rhTilt.move_angle(0, blocking = False)
+            lhTilt.move_angle(0, blocking = False)
+            rhSwing.move_angle(radians(20), blocking = False)
+            lhSwing.move_angle(radians(-20), blocking = False)
+            rkExt.move_angle(radians(-40), blocking = False)
+            lkExt.move_angle(radians(-40), blocking = False)
+            raExt.move_angle(radians(-20), blocking = False)
+            laExt.move_angle(radians(-20), blocking = False) 
+            raTilt.move_angle(0, blocking = False)
+            laTilt.move_angle(0, blocking = False)
+
+        elif command == 'makesetpoint':
+            for motor in motors:
+                motor.disable_torque()
+            command = raw_input('Ready to read angles? ')
+            if command == 'yes':
+                angles = []
+                for i in range(len(motors)):
+                    angles.append(degrees(motors[i].read_angle()))
+
+            print angles
+
+
         else:
             command = float(command)
             lhSwing.move_angle(radians(command))   
