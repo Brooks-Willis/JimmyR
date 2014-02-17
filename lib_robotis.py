@@ -25,7 +25,7 @@ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-Controlling Robotis Dynamixel RX-28 & RX-64 servos from python
+Controlling Robotis Dynamixel MX-64 servos from python
 using the USB2Dynamixel adaptor.
 http://www.hizook.com/blog/2010/03/14/robotis-dynamixel-servos-overview-applications-tear-down-and-open-source-software?page=1
 Authors: Travis Deyle, Advait Jain & Marc Killpack (Healthcare Robotics Lab, Georgia Tech.)
@@ -292,6 +292,28 @@ class Robotis_Servo():
         ''' changes the servo id
         '''
         return self.write_address( 0x03, [id] )
+
+    def write_PID(self, p, i, d):
+        ''' changes the servo PID gains
+        '''
+        return self.write_address( 0x1a, [d] )
+        return self.write_address( 0x1b, [i] )
+        return self.write_address( 0x1c, [p] )
+
+    def write_D(self, d):
+        ''' changes the servo derivative gain
+        '''
+        return self.write_address( 0x1a, [d] )
+
+    def write_I(self, i):
+        ''' changes the servo integral gain
+        '''
+        return self.write_address( 0x1b, [i] )
+
+    def write_P(self, p):
+        ''' changes the servo proportional gain
+        '''
+        return self.write_address( 0x1c, [p] )
 
     def __calc_checksum(self, msg):
         chksum = 0

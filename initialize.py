@@ -56,14 +56,16 @@ def main():
             lhTwist.move_angle(0, blocking = False)
             rhTilt.move_angle(0, blocking = False)
             lhTilt.move_angle(0, blocking = False)
-            rhSwing.move_angle(radians(20), blocking = False)
-            lhSwing.move_angle(radians(-20), blocking = False)
+            rhSwing.move_angle(radians(20), angvel = radians(50), blocking = False)
+            lhSwing.move_angle(radians(-20), angvel = radians(50), blocking = False)
             rkExt.move_angle(radians(-40), blocking = False)
             lkExt.move_angle(radians(-40), blocking = False)
-            raExt.move_angle(radians(-20), blocking = False)
-            laExt.move_angle(radians(-20), blocking = False) 
+            raExt.move_angle(radians(-20), angvel = radians(50), blocking = False)
+            laExt.move_angle(radians(-20), angvel = radians(50), blocking = False) 
             raTilt.move_angle(0, blocking = False)
             laTilt.move_angle(0, blocking = False)
+
+            
 
         elif command == 'makesetpoint':
             for motor in motors:
