@@ -35,37 +35,46 @@ def setup():
 def main():
     dyn, rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt = setup()
     motors = [rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt]
+    position = [1,1,1,1,1,1,1,1,1,1,1,1]
+    maxSpeed = radians(100)
     command = raw_input('Next Command? ')
     while command != 'end':
         if command == 'stand':
-            rhTwist.move_angle(0, blocking = False)
-            lhTwist.move_angle(0, blocking = False)
-            rhTilt.move_angle(0, blocking = False)
-            lhTilt.move_angle(0, blocking = False)
-            rhSwing.move_angle(0, blocking = False)
-            lhSwing.move_angle(0, blocking = False)
-            rkExt.move_angle(0, blocking = False)
-            lkExt.move_angle(0, blocking = False)
-            raExt.move_angle(0, blocking = False)
-            laExt.move_angle(0, blocking = False)
-            raTilt.move_angle(0, blocking = False)
-            laTilt.move_angle(0, blocking = False)
+            target = [0,0,0,0,0,0,0,0,0,0,0,0]
+            speeds = setSpeed(motors, position, target, maxSpeed)
+            print speeds
+            rhTwist.move_angle(0, angvel = speeds[0], blocking = False)
+            lhTwist.move_angle(0, angvel = speeds[1], blocking = False)
+            rhTilt.move_angle(0, angvel = speeds[2],blocking = False)
+            lhTilt.move_angle(0, angvel = speeds[3], blocking = False)
+            rhSwing.move_angle(0, angvel = speeds[4], blocking = False)
+            lhSwing.move_angle(0, angvel = speeds[5], blocking = False)
+            rkExt.move_angle(0, angvel = speeds[6], blocking = False)
+            lkExt.move_angle(0, angvel = speeds[7], blocking = False)
+            raExt.move_angle(0, angvel = speeds[8], blocking = False)
+            laExt.move_angle(0, angvel = speeds[9], blocking = False) 
+            raTilt.move_angle(0, angvel = speeds[10], blocking = False)
+            laTilt.move_angle(0, angvel = speeds[11], blocking = False)
+            position = [0,0,0,0,0,0,0,0,0,0,0,0]
 
         elif command == 'crouch':
-            rhTwist.move_angle(0, blocking = False)
-            lhTwist.move_angle(0, blocking = False)
-            rhTilt.move_angle(0, blocking = False)
-            lhTilt.move_angle(0, blocking = False)
-            rhSwing.move_angle(radians(20), angvel = radians(50), blocking = False)
-            lhSwing.move_angle(radians(-20), angvel = radians(50), blocking = False)
-            rkExt.move_angle(radians(-40), blocking = False)
-            lkExt.move_angle(radians(-40), blocking = False)
-            raExt.move_angle(radians(-20), angvel = radians(50), blocking = False)
-            laExt.move_angle(radians(-20), angvel = radians(50), blocking = False) 
-            raTilt.move_angle(0, blocking = False)
-            laTilt.move_angle(0, blocking = False)
+            target = [0,0,0,0,radians(20),radians(20),radians(-40),radians(-40),radians(-20),radians(-20),0,0]
+            speeds = setSpeed(motors, position, target, maxSpeed)
+            print speeds
+            rhTwist.move_angle(0, angvel = speeds[0], blocking = False)
+            lhTwist.move_angle(0, angvel = speeds[1], blocking = False)
+            rhTilt.move_angle(0, angvel = speeds[2],blocking = False)
+            lhTilt.move_angle(0, angvel = speeds[3], blocking = False)
+            rhSwing.move_angle(radians(20), angvel = speeds[4], blocking = False)
+            lhSwing.move_angle(radians(-20), angvel = speeds[5], blocking = False)
+            rkExt.move_angle(radians(-40), angvel = speeds[6], blocking = False)
+            lkExt.move_angle(radians(-40), angvel = speeds[7], blocking = False)
+            raExt.move_angle(radians(-20), angvel = speeds[8], blocking = False)
+            laExt.move_angle(radians(-20), angvel = speeds[9], blocking = False) 
+            raTilt.move_angle(0, angvel = speeds[10], blocking = False)
+            laTilt.move_angle(0, angvel = speeds[11], blocking = False)
+            position = [0,0,0,0,radians(20),radians(20),radians(-40),radians(-40),radians(-20),radians(-20),0,0]
 
-            
 
         elif command == 'makesetpoint':
             for motor in motors:
@@ -75,14 +84,28 @@ def main():
                 angles = []
                 for i in range(len(motors)):
                     angles.append(degrees(motors[i].read_angle()))
+                print angles
 
-            print angles
+            
 
 
         else:
             command = float(command)
             lhSwing.move_angle(radians(command))   
         command = raw_input('Next Command? ')     
-     
+    
+def setSpeed(motors, position, target, maxSpeed):
+    change = []
+    speeds = []
+    for i in range(len(motors)):
+        change.append(abs(position[i] - target[i]))
+
+    maxChange = max(change)
+    for change in change:
+        speeds.append(maxSpeed * (change/maxChange)) 
+
+    return speeds
+
+
 if __name__ == '__main__':
     main()
