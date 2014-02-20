@@ -36,21 +36,7 @@ def main():
     while command != 'end':
         if command == 'stand':
             target = [0,0,0,0,0,0,0,0,0,0,0,0]
-            speeds = setSpeed(motors, position, target, maxSpeed)
-            print speeds
-            rhTwist.move_angle(0, angvel = speeds[0], blocking = False)
-            lhTwist.move_angle(0, angvel = speeds[1], blocking = False)
-            rhTilt.move_angle(0, angvel = speeds[2],blocking = False)
-            lhTilt.move_angle(0, angvel = speeds[3], blocking = False)
-            rhSwing.move_angle(0, angvel = speeds[4], blocking = False)
-            lhSwing.move_angle(0, angvel = speeds[5], blocking = False)
-            rkExt.move_angle(0, angvel = speeds[6], blocking = False)
-            lkExt.move_angle(0, angvel = speeds[7], blocking = False)
-            raExt.move_angle(0, angvel = speeds[8], blocking = False)
-            laExt.move_angle(0, angvel = speeds[9], blocking = False) 
-            raTilt.move_angle(0, angvel = speeds[10], blocking = False)
-            laTilt.move_angle(0, angvel = speeds[11], blocking = False)
-            position = [0,0,0,0,0,0,0,0,0,0,0,0]
+            position = move_legs(motors, target, position, maxSpeed)
 
         elif command == 'crouch':
             target = [0,0,0,0,radians(20),radians(-20),radians(-40),radians(-40),radians(-20),radians(-20),0,0]
@@ -58,7 +44,25 @@ def main():
 
         elif command == 'shuffle':
             while command != 'break':
-                move_legs(motors, [], position, maxSpeed)
+                target = [0,0,radians(13),radians(13),0,0,0,0,0,0,radians(-13),radians(-13)]
+                position = move_legs(motors, target, position, maxSpeed/3) #Shift Left
+                command = raw_input('step (hit enter to proceed)')
+                target = [0,0,radians(13),radians(13),radians(20),0,radians(-40),0,radians(-20),0,radians(-13),radians(-13)]
+                position = move_legs(motors, target, position, maxSpeed) #Lift Right Leg
+                command = raw_input('step (hit enter to proceed)')
+                target = [0,0,radians(13),radians(13),0,0,0,0,0,0,radians(-13),radians(-13)]
+                position = move_legs(motors, target, position, maxSpeed) #lower Right Leg
+                command = raw_input('step (hit enter to proceed)')
+
+                target = [0,0,radians(-13),radians(-13),0,0,0,0,0,0,radians(13),radians(13)]
+                position = move_legs(motors, target, position, maxSpeed/3) #Shift Right
+                command = raw_input('step (hit enter to proceed)')
+                target = [0,0,radians(-13),radians(-13),0,radians(-20),0,radians(-40),0,radians(-20),radians(13),radians(13)]
+                position = move_legs(motors, target, position, maxSpeed) #Lift Left Leg
+                command = raw_input('step (hit enter to proceed)')
+                target = [0,0,radians(-13),radians(-13),0,0,0,0,0,0,radians(13),radians(13)]
+                position = move_legs(motors, target, position, maxSpeed) #Lower Left Leg
+                command = raw_input('step (hit enter to proceed)')
 
         elif command == 'makesetpoint':
             for motor in motors:
@@ -70,10 +74,17 @@ def main():
                     angles.append(degrees(motors[i].read_angle()))
                 print angles
 
+        elif command == 'readpos':
+            angles = []
+            for i in range(len(motors)):
+                angles.append(degrees(motors[i].read_angle()))
+            print angles
+
 
         else:
-            command = float(command)
-            lhSwing.move_angle(radians(command))   
+            print 'Invalid Command'
+            """command = float(command)
+            lhSwing.move_angle(radians(command))"""   
         command = raw_input('Next Command? ')     
     
 def setSpeed(motors, position, target, maxSpeed):
