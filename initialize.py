@@ -8,11 +8,6 @@ h = hip
 k = knee
 a = ankle
 """
-#rsPitch = Robotis_Servo(U2D,1)
-#lsPitch = Robotis_Servo(U2D,2)
-#sRoll = Robotis_Servo(U2D,3)
-
-#r = Robotis_Servo(U2D,1)
 
 def setup():
     dyn = USB2Dynamixel_Device()
@@ -58,23 +53,12 @@ def main():
             position = [0,0,0,0,0,0,0,0,0,0,0,0]
 
         elif command == 'crouch':
-            target = [0,0,0,0,radians(20),radians(20),radians(-40),radians(-40),radians(-20),radians(-20),0,0]
-            speeds = setSpeed(motors, position, target, maxSpeed)
-            print speeds
-            rhTwist.move_angle(0, angvel = speeds[0], blocking = False)
-            lhTwist.move_angle(0, angvel = speeds[1], blocking = False)
-            rhTilt.move_angle(0, angvel = speeds[2],blocking = False)
-            lhTilt.move_angle(0, angvel = speeds[3], blocking = False)
-            rhSwing.move_angle(radians(20), angvel = speeds[4], blocking = False)
-            lhSwing.move_angle(radians(-20), angvel = speeds[5], blocking = False)
-            rkExt.move_angle(radians(-40), angvel = speeds[6], blocking = False)
-            lkExt.move_angle(radians(-40), angvel = speeds[7], blocking = False)
-            raExt.move_angle(radians(-20), angvel = speeds[8], blocking = False)
-            laExt.move_angle(radians(-20), angvel = speeds[9], blocking = False) 
-            raTilt.move_angle(0, angvel = speeds[10], blocking = False)
-            laTilt.move_angle(0, angvel = speeds[11], blocking = False)
-            position = [0,0,0,0,radians(20),radians(20),radians(-40),radians(-40),radians(-20),radians(-20),0,0]
+            target = [0,0,0,0,radians(20),radians(-20),radians(-40),radians(-40),radians(-20),radians(-20),0,0]
+            position = move_legs(motors, target, position, maxSpeed)
 
+        elif command == 'shuffle':
+            while command != 'break':
+                move_legs(motors, [], position, maxSpeed)
 
         elif command == 'makesetpoint':
             for motor in motors:
@@ -85,8 +69,6 @@ def main():
                 for i in range(len(motors)):
                     angles.append(degrees(motors[i].read_angle()))
                 print angles
-
-            
 
 
         else:
@@ -106,6 +88,23 @@ def setSpeed(motors, position, target, maxSpeed):
 
     return speeds
 
+def move_legs(motors, target, position, maxSpeed):
+    speeds = setSpeed(motors, position, target, maxSpeed)
+    rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt = motors
+    rhTwist.move_angle(target[0], angvel = speeds[0], blocking = False)
+    lhTwist.move_angle(target[1], angvel = speeds[1], blocking = False)
+    rhTilt.move_angle(target[2], angvel = speeds[2],blocking = False)
+    lhTilt.move_angle(target[3], angvel = speeds[3], blocking = False)
+    rhSwing.move_angle(target[4], angvel = speeds[4], blocking = False)
+    lhSwing.move_angle(target[5], angvel = speeds[5], blocking = False)
+    rkExt.move_angle(target[6], angvel = speeds[6], blocking = False)
+    lkExt.move_angle(target[7], angvel = speeds[7], blocking = False)
+    raExt.move_angle(target[8], angvel = speeds[8], blocking = False)
+    laExt.move_angle(target[9], angvel = speeds[9], blocking = False) 
+    raTilt.move_angle(target[10], angvel = speeds[10], blocking = False)
+    laTilt.move_angle(target[11], angvel = speeds[11], blocking = True) #Wait for commands to excecute before proceeding
+    
+    return target
 
 if __name__ == '__main__':
     main()
