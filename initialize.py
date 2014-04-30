@@ -60,21 +60,57 @@ def main():
             #Stand Up
             target = [0,0,0,0,0,0,0,0,0,0,0,0]
             legposition = move_legs(legmotors, target, legposition, maxSpeed)
-            #Shift Arms and Head
+            """
+            #Shift Arms and Head (Change so they stay at his side)
             command = raw_input('step (hit enter to proceed)')
             target = [radians(39.8), radians(1.6), radians(13.98), radians(35.87), radians(-70.2), radians(-6.8), radians(-5.3), radians(17.7), radians(156.3), radians(-83.9), radians(6.3)]
             torsoposition = move_torso(torsomotors,target, torsoposition, maxSpeed/2)
+            """
             #Shift onto Left Foot
             command = raw_input('step (hit enter to proceed)')
             target = [0,0,radians(13),radians(5),0,0,0,0,0,0,radians(-13),radians(-15)]
             legposition = move_legs(legmotors, target, legposition, maxSpeed/2)
+            """
             #Lift Right Leg
             command = raw_input('step (hit enter to proceed)')
-            target = [0,0,radians(13),radians(5),radians(20),0,radians(-40),0,radians(-20),0,radians(-13),radians(-15)]
+            target = [0,0,radians(13),radians(5),radians(20),0,radians(-40),0,radians(-25),0,radians(-13),radians(-15)]
             legposition = move_legs(legmotors, target, legposition, maxSpeed) 
+            """
             #Right Leg Forward
             command = raw_input('step (hit enter to proceed)')
-            target = [0,0,radians(13),radians(5),radians(15),0,0,0,radians(15),0,radians(-13),radians(-15)]
+            target = [0,0,radians(13),radians(5),radians(25),radians(0),radians(-20),radians(0),radians(7),radians(0),radians(-13),radians(-15)]
+            legposition = move_legs(legmotors, target, legposition, maxSpeed)
+            #Body Forward
+            command = raw_input('step (hit enter to proceed)')
+            target = [0,0,radians(13),radians(5),radians(10),radians(10),radians(0),radians(0),radians(10),radians(-10),radians(-13),radians(-13)]
+            legposition = move_legs(legmotors, target, legposition, maxSpeed/3)
+            #Shift Weight Right
+            command = raw_input('step (hit enter to proceed)')
+            target = [0,0,radians(-5),radians(-13),radians(0),radians(15),radians(0),radians(0),radians(0),radians(-15),radians(15),radians(13)]
+            legposition = move_legs(legmotors, target, legposition, maxSpeed/4)
+            #Move Forward, Lift Left Leg
+            command = raw_input('step (hit enter to proceed)')
+            target = [0,0,radians(-5),radians(-13),radians(0),radians(-25),radians(0),radians(-50),radians(0),radians(-30),radians(15),radians(13)]
+            legposition = move_legs(legmotors, target, legposition, maxSpeed/4)
+            #[rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt]
+
+        elif command == 'right':
+            #Stand Up
+            target = [0,0,0,0,0,0,0,0,0,0,0,0]
+            legposition = move_legs(legmotors, target, legposition, maxSpeed)
+            #Shift onto Left Foot
+            command = raw_input('step (hit enter to proceed)')
+            target = [0,0,radians(13),radians(5),0,0,0,0,0,0,radians(-13),radians(-15)]
+            legposition = move_legs(legmotors, target, legposition, maxSpeed/2)
+            """
+            #Lift Right Leg
+            command = raw_input('step (hit enter to proceed)')
+            target = [0,0,radians(13),radians(5),radians(20),0,radians(-40),0,radians(-25),0,radians(-13),radians(-15)]
+            legposition = move_legs(legmotors, target, legposition, maxSpeed) 
+            """
+            #Right Leg Forward
+            command = raw_input('step (hit enter to proceed)')
+            target = [0,0,radians(13),radians(5),radians(25),0,radians(-20),0,radians(7),0,radians(-13),radians(-15)]
             legposition = move_legs(legmotors, target, legposition, maxSpeed)
             #Body Forward
             command = raw_input('step (hit enter to proceed)')
@@ -86,48 +122,32 @@ def main():
             legposition = move_legs(legmotors, target, legposition, maxSpeed/4)
             #Move Forward
             command = raw_input('step (hit enter to proceed)')
-            target = [0,0,radians(-5),radians(-13),radians(0),radians(0),0,0,radians(0),radians(0),radians(15),radians(13)]
+            target = [0,0,radians(-5),radians(-13),0,radians(-20),0,radians(-40),0,radians(-20),radians(15),radians(13)]
             legposition = move_legs(legmotors, target, legposition, maxSpeed/4)
             #Lift Left Leg
             command = raw_input('step (hit enter to proceed)')
             target = [0,0,radians(-5),radians(-13),0,radians(-20),0,radians(-40),0,radians(-20),radians(15),radians(13)]
             legposition = move_legs(legmotors, target, legposition, maxSpeed)
-            
+            #[rhTwist, lhTwist, rhTilt, lhTilt, rhSwing, lhSwing, rkExt, lkExt, raExt, laExt, raTilt, laTilt]
 
         elif command == 'shuffle':
+            target = [0,0,0,0,radians(10),radians(-10),radians(-20),radians(-20),radians(-7.5),radians(-7.5),0,0]
+            legposition = move_legs(legmotors, target, legposition, maxSpeed) #Center
             while True:
-                target = [0,0,radians(13),radians(13),0,0,0,0,0,0,radians(-13),radians(-13)]
-                legposition = move_legs(legmotors, target, legposition, maxSpeed/3) #Shift Left
-                command = raw_input('step (hit enter to proceed)')
-                if command != '':
-                    break
-                target = [0,0,radians(13),radians(13),radians(20),0,radians(-40),0,radians(-20),0,radians(-13),radians(-13)]
-                legposition = move_legs(legmotors, target, legposition, maxSpeed) #Lift Right Leg
-                command = raw_input('step (hit enter to proceed)')
-                if command != '':
-                    break
-                target = [0,0,radians(13),radians(13),0,0,0,0,0,0,radians(-13),radians(-13)]
-                legposition = move_legs(legmotors, target, legposition, maxSpeed) #lower Right Leg
-                command = raw_input('step (hit enter to proceed)')
-                if command != '':
-                    break
-
-                target = [0,0,radians(-13),radians(-13),0,0,0,0,0,0,radians(13),radians(13)]
-                legposition = move_legs(legmotors, target, legposition, maxSpeed/3) #Shift Right
-                command = raw_input('step (hit enter to proceed)')
-                if command != '':
-                    break
-                target = [0,0,radians(-13),radians(-13),0,radians(-20),0,radians(-40),0,radians(-20),radians(13),radians(13)]
-                legposition = move_legs(legmotors, target, legposition, maxSpeed) #Lift Left Leg
-                command = raw_input('step (hit enter to proceed)')
-                if command != '':
-                    break
-                target = [0,0,radians(-13),radians(-13),0,0,0,0,0,0,radians(13),radians(13)]
-                legposition = move_legs(legmotors, target, legposition, maxSpeed) #Lower Left Leg
-                command = raw_input('step (hit enter to proceed)')
-                if command != '':
-                    break
-
+                """
+                target = [0,0,0,0,radians(10),radians(-10),radians(-20),radians(-20),radians(-10),radians(-10),0,0]
+                legposition = move_legs(legmotors, target, legposition, maxSpeed) #Center
+                """
+                target = [0,0,radians(2.5),radians(-5),radians(0),radians(-30),radians(0),radians(-60),radians(2.5),radians(-27.5),radians(7.5),radians(5)]
+                legposition = move_legs(legmotors, target, legposition, 0) #Left Step
+                """
+                target = [0,0,0,0,radians(10),radians(-10),radians(-20),radians(-20),radians(-10),radians(-10),0,0]
+                legposition = move_legs(legmotors, target, legposition, maxSpeed) #Center
+                """
+                target = [0,0,radians(5),radians(-2.5),radians(30),radians(0),radians(-60),radians(0),radians(-27.5),radians(2.5),radians(-5),radians(-7.5)]
+                legposition = move_legs(legmotors, target, legposition, 0) #Right Step
+                 
+                
         elif command == 'makesetpoint':
             for motor in motors:
                 motor.disable_torque()
@@ -156,15 +176,21 @@ def main():
 def setSpeed(motors, position, target, maxSpeed):
     change = []
     speeds = []
-    print len(position), len(target), len(motors)
+    #print len(position), len(target), len(motors)
     for i in range(len(motors)):
         change.append(abs(position[i] - target[i]))
 
     maxChange = max(change)
-    for change in change:
-        speeds.append(maxSpeed * (change/maxChange)) 
+    if abs(maxChange) != 0:
+        for change in change:
 
+            speeds.append(maxSpeed * (change/maxChange))         
+    else:
+        for change in change:
+
+            speeds.append(maxSpeed)
     return speeds
+
 
 def move_torso(motors, target, position, maxSpeed):
     speeds = setSpeed(motors, position, target, maxSpeed)
